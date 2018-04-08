@@ -5,15 +5,23 @@ from bs4 import BeautifulSoup
 
 keepGoing = True
 
-
 def replace_all(text, dic):
     for a, b in dic.iteritems():
         text = text.replace(a, b)
     return text
 
+askFileName = raw_input("Give a name for the file we're going to create: ")
+file = open(askFileName, "a+")
+
 while (keepGoing):
-    finalArticle = ""
-    askURL = raw_input("Which URL are we scraping? ")
+    needURL = True
+    while (needURL):
+        askURL = raw_input("Which URL are we scraping? ")
+        if "http" in askURL:
+            needURL = False
+        else:
+            print ("Sorry, you didn't give me a URL. Try again ...")
+
     page = urllib2.urlopen(askURL)
     soup = BeautifulSoup(page, 'html.parser')
 
@@ -54,7 +62,9 @@ while (keepGoing):
     #lowercase it!
     finalLyrics = finalLyrics.lower()
 
-    print (finalLyrics)
+    # print (finalLyrics)
+
+    file.write(finalLyrics)
 
     # check if the user wants to continue ...
     needAnswer = True
@@ -68,5 +78,6 @@ while (keepGoing):
         else:
             print ("Sorry, I need a Y or N ...")
 
+# file.write(totalToWrite)
 
 print ("Okay, we're all done!")
