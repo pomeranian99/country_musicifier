@@ -81,3 +81,5 @@ while (keepGoing):
 # file.write(totalToWrite)
 
 print ("Okay, we're all done!")
+
+file.close()
