@@ -25,22 +25,19 @@ while (keepGoing):
     page = urllib2.urlopen(askURL)
     soup = BeautifulSoup(page, 'html.parser')
 
-    # break the html into a list, broken up by tds
     listOfParts = soup.find_all('td')
 
     # the 20th element in the list contains the lyrics
     stringOfParts = str(listOfParts[19])
     listOfParts = stringOfParts.split("<br/>")
 
-    # this is the dictionary for all the substring chunks
-    # I'll want to search and replace for later in the final string
+    # remove crufty substring chunks
     reps = {"</br>": "", "<br>": "", "</td>": "", "\n": " ", "\r": " ", "              ": "", "  ": " "}
     reps2 = {"  ": " "}
     totalLyrics = ""
     counter = 1
 
-    # take anything element that doesn't have a href or script tag
-    # and exclude it; everything else is appended to the final string ...
+    # ugh terrible way to do this, god, need to fix
     for i in listOfParts:
         if "href" in i:
             print ("Throwing out a href!!!")
@@ -51,22 +48,18 @@ while (keepGoing):
                 totalLyrics = totalLyrics + i
         counter = counter + 1
 
-    # get rid of the html cruft in the string
+    # get rid of the html cruft
     finalLyrics = replace_all(totalLyrics, reps)
 
-    # get rid of the double spaces in the string
+    # nix double spaces
     while ("  " in finalLyrics):
         reduced = replace_all(finalLyrics, reps2)
         finalLyrics = reduced
 
-    #lowercase it!
     finalLyrics = finalLyrics.lower()
 
-    # print (finalLyrics)
+        file.write(finalLyrics)
 
-    file.write(finalLyrics)
-
-    # check if the user wants to continue ...
     needAnswer = True
     while (needAnswer):
         cont = raw_input("Add another song? Y or N ... ")
@@ -78,8 +71,5 @@ while (keepGoing):
         else:
             print ("Sorry, I need a Y or N ...")
 
-# file.write(totalToWrite)
-
 print ("Okay, we're all done!")
-
 file.close()
