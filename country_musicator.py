@@ -37,13 +37,12 @@ while (keepGoing):
     totalLyrics = ""
     counter = 1
 
-    # ugh terrible way to do this, god, need to fix
     for i in listOfParts:
         if "href" in i:
-            print ("Throwing out a href!!!")
+            continue
         else:
             if "<script" in i:
-                print ("Throwing out a script!!!")
+                continue
             else:
                 totalLyrics = totalLyrics + i
         counter = counter + 1
@@ -58,7 +57,7 @@ while (keepGoing):
 
     finalLyrics = finalLyrics.lower()
 
-        file.write(finalLyrics)
+    file.write(finalLyrics)
 
     needAnswer = True
     while (needAnswer):
